@@ -1,9 +1,19 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { MapPin, Navigation, Bell, Settings, Camera, Map, PawPrint } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import SmoothScroll from "@/components/SmoothScroll"
 import ContactForm from "@/components/ContactForm"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 export default function Home() {
   return (
@@ -46,10 +56,24 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button className="bg-[#4CAF50] hover:bg-[#388E3C] text-white">Download Now</Button>
-                  <Button variant="outline" className="border-[#4CAF50] text-[#4CAF50]">
-                    Learn More
-                  </Button>
+                  <Link href="https://apps.apple.com/us/app/straysync/id6742747753" target="_blank" rel="noopener noreferrer">
+                    <Button className="bg-[#4CAF50] hover:bg-[#388E3C] text-white">Download Now</Button>
+                  </Link>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" className="border-[#4CAF50] text-[#4CAF50]">
+                        Learn More
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle className="text-[#2E7D32]">Coming Soon</DialogTitle>
+                        <DialogDescription className="pt-4 text-base">
+                          More information about StraySync is coming soon. Stay tuned for updates!
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
               <div className="flex items-center justify-center">
@@ -250,7 +274,9 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button className="bg-[#4CAF50] hover:bg-[#388E3C] text-white">Download for iOS</Button>
+                <Link href="https://apps.apple.com/us/app/straysync/id6742747753" target="_blank" rel="noopener noreferrer">
+                  <Button className="bg-[#4CAF50] hover:bg-[#388E3C] text-white">Download for iOS</Button>
+                </Link>
               </div>
             </div>
           </div>

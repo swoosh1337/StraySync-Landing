@@ -3,33 +3,42 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { sendEmail } from "@/app/actions"
+import { useToast } from "@/hooks/use-toast"
 
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [feedback, setFeedback] = useState<{ success: boolean; message: string } | null>(null)
+  const { toast } = useToast()
 
   async function handleSubmit(formData: FormData) {
     setIsSubmitting(true)
-    setFeedback(null)
     
     try {
       const result = await sendEmail(formData)
-      setFeedback(result)
       
-      // Reset the form if successful
+      // Show toast notification
       if (result.success) {
+        toast({
+          title: "Success!",
+          description: "Your message has been sent successfully.",
+          variant: "default",
+          className: "bg-green-100 border-green-400 text-green-800",
+        })
+        
+        // Reset the form if successful
         const form = document.getElementById('contact-form') as HTMLFormElement
         if (form) form.reset()
-        
-        // Clear feedback after 5 seconds
-        setTimeout(() => {
-          setFeedback(null)
-        }, 5000)
+      } else {
+        toast({
+          title: "Error",
+          description: result.message || "Failed to send message. Please try again.",
+          variant: "destructive",
+        })
       }
     } catch (error) {
-      setFeedback({ 
-        success: false, 
-        message: "An unexpected error occurred. Please try again." 
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
       })
     } finally {
       setIsSubmitting(false)
@@ -91,16 +100,6 @@ export default function ContactForm() {
       >
         {isSubmitting ? "Sending..." : "Send Message"}
       </Button>
-      
-      {feedback && (
-        <div className={`mt-4 px-4 py-3 rounded ${
-          feedback.success 
-            ? "bg-green-100 border border-green-400 text-green-700" 
-            : "bg-red-100 border border-red-400 text-red-700"
-        }`}>
-          {feedback.message}
-        </div>
-      )}
     </form>
   )
 } 
